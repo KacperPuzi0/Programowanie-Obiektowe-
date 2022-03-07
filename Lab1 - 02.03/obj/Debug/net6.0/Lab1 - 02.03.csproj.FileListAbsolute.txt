@@ -1,0 +1,15 @@
+C:\Users\Kacper\Source\Repos\Programowanie-Obiektowe-\Lab1 - 02.03\bin\Debug\net6.0\Lab1 - 02.03.exe
+C:\Users\Kacper\Source\Repos\Programowanie-Obiektowe-\Lab1 - 02.03\bin\Debug\net6.0\Lab1 - 02.03.deps.json
+C:\Users\Kacper\Source\Repos\Programowanie-Obiektowe-\Lab1 - 02.03\bin\Debug\net6.0\Lab1 - 02.03.runtimeconfig.json
+C:\Users\Kacper\Source\Repos\Programowanie-Obiektowe-\Lab1 - 02.03\bin\Debug\net6.0\Lab1 - 02.03.dll
+C:\Users\Kacper\Source\Repos\Programowanie-Obiektowe-\Lab1 - 02.03\bin\Debug\net6.0\ref\Lab1 - 02.03.dll
+C:\Users\Kacper\Source\Repos\Programowanie-Obiektowe-\Lab1 - 02.03\bin\Debug\net6.0\Lab1 - 02.03.pdb
+C:\Users\Kacper\Source\Repos\Programowanie-Obiektowe-\Lab1 - 02.03\obj\Debug\net6.0\Lab1 - 02.03.csproj.AssemblyReference.cache
+C:\Users\Kacper\Source\Repos\Programowanie-Obiektowe-\Lab1 - 02.03\obj\Debug\net6.0\Lab1 - 02.03.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Kacper\Source\Repos\Programowanie-Obiektowe-\Lab1 - 02.03\obj\Debug\net6.0\Lab1 - 02.03.AssemblyInfoInputs.cache
+C:\Users\Kacper\Source\Repos\Programowanie-Obiektowe-\Lab1 - 02.03\obj\Debug\net6.0\Lab1 - 02.03.AssemblyInfo.cs
+C:\Users\Kacper\Source\Repos\Programowanie-Obiektowe-\Lab1 - 02.03\obj\Debug\net6.0\Lab1 - 02.03.csproj.CoreCompileInputs.cache
+C:\Users\Kacper\Source\Repos\Programowanie-Obiektowe-\Lab1 - 02.03\obj\Debug\net6.0\Lab1 - 02.03.dll
+C:\Users\Kacper\Source\Repos\Programowanie-Obiektowe-\Lab1 - 02.03\obj\Debug\net6.0\ref\Lab1 - 02.03.dll
+C:\Users\Kacper\Source\Repos\Programowanie-Obiektowe-\Lab1 - 02.03\obj\Debug\net6.0\Lab1 - 02.03.pdb
+C:\Users\Kacper\Source\Repos\Programowanie-Obiektowe-\Lab1 - 02.03\obj\Debug\net6.0\Lab1 - 02.03.genruntimeconfig.cache
