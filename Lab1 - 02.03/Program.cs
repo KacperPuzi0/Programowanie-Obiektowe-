@@ -55,7 +55,7 @@ public class PersonProperties
         private Money(decimal value, Currency currency)
         {
             _value = value;
-            _currency = currency;   
+            _currency = currency;
         }
 
         public static Money? Of(decimal value, Currency currency)
@@ -64,6 +64,8 @@ public class PersonProperties
         }
 
         // Ćwiczenie 1 
+        // Zdefiniuj metodę wytwórczą OfWithException, która w przypadku nie możności zbudowania poprawnego
+        // obiektu zgłasza wyjątek.
         public static Money? OfWithException(decimal value, Currency currency)
         {
             if (value < 0)
@@ -77,6 +79,8 @@ public class PersonProperties
         }
 
         // Ćwiczenie 2 
+        // Zdefiniuj metodę wytwórczą ParseValue(string valueStr, Currency currency), która tworzy obiekt na
+        // podstawie łańcucha z wartością kwoty np. ”13,45”.
         public static Money? ParseValue(string value, Currency currency)
         {
             decimal parseValue;
@@ -91,9 +95,55 @@ public class PersonProperties
             }
         }
 
+        public decimal Value
+        {
+            get { return _value; }
+        }
+
         // Ćwiczenie 3 
+        // Zdefiniuj właściwość Currency tylko do zwracania waluty
 
+        public Currency Currency { get { return _currency;} }
 
+        // Ćwiczenie 4 
+        // Zdefiniuj operator mnożenia dla operandów typu decimal i Money.
+
+        public static Money operator *(Money money, decimal factor)
+        {
+            return new Money(money.Value * factor, money.Currency);
+        }
+
+        // Ćwiczenie 5 
+        // Zdefiniuj operator dodawania dla dwóch obiektów typu Money
+
+        public static Money operator +(Money moneya, Money moneyb)
+        {
+            return new Money(moneya.Value + moneyb.Value, moneya.Currency);    
+        }
+
+        // Ćwiczenie 6
+        // Zdefiniuj operator < dla klasy Money.
+
+        public static bool operator >(Money a, Money b)
+        {
+            return a.Value > b.Value;
+        }
+
+        public static bool operator <(Money a, Money b)
+        {
+            return a.Value < b.Value;
+        }
+
+        // Ćwiczenie 7 
+        // Zdefiniuj opereator jawnego rzutowania do typu float 
+
+        // Operatory jawne ( explicit ) 
+        // Operatory niejawne ( implicit ) 
+
+        public static explicit operator float(Money money)
+        {
+            return (float)money.Value;  
+        }
     }
 
 }
