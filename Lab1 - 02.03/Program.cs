@@ -58,7 +58,7 @@ public class PersonProperties
             _currency = currency;
         }
 
-        public static Money? Of(decimal value, Currency currency)
+        public static Money Of(decimal value, Currency currency)
         {
             return value < 0 ? null : new Money(value, currency);
         }
@@ -103,14 +103,19 @@ public class PersonProperties
         // Ćwiczenie 3 
         // Zdefiniuj właściwość Currency tylko do zwracania waluty
 
-        public Currency Currency { get { return _currency;} }
+        public Currency Currency { get { return _currency; } }
 
         // Ćwiczenie 4 
         // Zdefiniuj operator mnożenia dla operandów typu decimal i Money.
 
-        public static Money operator *(Money money, decimal factor)
+        public static Money operator *(Money money, decimal value)
         {
-            return new Money(money.Value * factor, money.Currency);
+            return Money.Of(money.Value * value, money.Currency);
+        }
+
+        public static Money operator *(decimal value, Money money)
+        {
+            return Money.Of(money._value * value, money._currency);
         }
 
         // Ćwiczenie 5 
@@ -118,7 +123,7 @@ public class PersonProperties
 
         public static Money operator +(Money moneya, Money moneyb)
         {
-            return new Money(moneya.Value + moneyb.Value, moneya.Currency);    
+            return new Money(moneya.Value + moneyb.Value, moneya.Currency);
         }
 
         // Ćwiczenie 6
@@ -142,8 +147,104 @@ public class PersonProperties
 
         public static explicit operator float(Money money)
         {
-            return (float)money.Value;  
+            return (float)money.Value;
         }
     }
 
+    // KLASY ZE STANEM 
+    public class Tank
+    {
+        public readonly int Capacity;
+        private int _level;
+
+        public Tank(int capacity)
+        {
+            Capacity = capacity;
+        }
+
+        public int Level
+        {
+            get { return _level; }
+            private set
+            {
+                if (value < 0 || value > Capacity)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+                _level = value;
+            }
+        }
+
+        // Metoda dolewania 
+        public bool refuel1(int amount)
+        {
+            if (amount < 0)
+            {
+                return false;
+            }
+            if (_level + amount > Capacity)
+            {
+                return false;
+            }
+            _level += amount;
+            return true;
+        }
+
+        // Drugi sposób 
+        public void refuel(int amount)
+        {
+            if (amount < 0)
+            {
+                throw new ArgumentException("Argument can't be non positive");
+            }
+            if (_level + amount > Capacity)
+            {
+                throw new ArgumentException("Argument is to large!");
+            }
+            _level += amount;
+        }
+
+
+        // Ćwiczenie 8
+        // Zaimplementuje metodę bool consume(int amount), która pobiera ze zbiornika ciecz o objętości w amount.
+        // W sytuacji, gdy niemożliwe jest pobranie takiej ilości cieczy metoda powinna zwrócić false;
+
+        public bool consume(int amount)
+        {
+            if (amount > 0)
+            {
+                return true;
+            }
+            if (_level - amount < Capacity || _level - amount > 0)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        // Ćwiczenie 9 
+        // Zaimplementuj metodę przelewania z jednego zbiornika do drugiego o poniższej sygnaturze
+
+        public bool refuel(Tank sourceTank, int amount)
+        {
+            if (_level + amount > Capacity)
+            {
+                int result = Capacity - amount;
+                _level = Capacity;
+                return result > 0;
+            }
+            _level -= amount;
+            return true;
+        }
+    }
+
+    // Ćwiczenie 10 
+    // Dla klasy Student zdefiniuj interfejs IComparable w jednej z poniższych wersji:
+
+    class Student
+    {
+        public string Nazwisko { get; set; }
+        public string Imie { get; set; }
+        public decimal Średnia { get; set; }
+    } 
 }
