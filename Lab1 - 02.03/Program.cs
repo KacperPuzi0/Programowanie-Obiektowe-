@@ -1,10 +1,10 @@
 ﻿class Program
 {
-    static void Main(string[] args)
-    {
-        PersonProperties PersonProperties = PersonProperties.of("Kacperek");
-        Console.WriteLine(PersonProperties.FirstName);
-    }
+    //static void Main(string[] args)
+    //{
+    //    PersonProperties PersonProperties = PersonProperties.of("Kacperek");
+    //    Console.WriteLine(PersonProperties.FirstName);
+    //}
 }
 public class PersonProperties
 {
@@ -241,10 +241,49 @@ public class PersonProperties
     // Ćwiczenie 10 
     // Dla klasy Student zdefiniuj interfejs IComparable w jednej z poniższych wersji:
 
-    class Student
+    public class Student : IComparable
     {
+
         public string Nazwisko { get; set; }
         public string Imie { get; set; }
         public decimal Średnia { get; set; }
+
+        public int CompareTo(object?obj)
+        {
+            if (!(obj is Student))
+            {
+                throw new ArgumentException("To nie student, to wykłądowca");
+            }
+            Student student = obj as Student;
+            return Średnia.CompareTo(student.Średnia);
+            return Nazwisko.CompareTo(student.Nazwisko);
+            return Imie.CompareTo(student.Imie);
+        }
     } 
+    private static void Main(string[] args)
+    {
+        Student[] student = new Student[]
+        {
+            new Student()
+            {
+                Nazwisko = "Zięba",
+                Imie = "Hubert",
+                Średnia = 3m
+            },
+            new Student()
+            {
+                Nazwisko = "Zięba",
+                Imie = "Kacper",
+                Średnia = 4m
+            },
+            new Student()
+            {
+                Nazwisko = "Zięba",
+                Imie = "Maciek",
+                Średnia = 5m
+            }
+        };
+        Array.Sort(student);
+        Array.ForEach(student, x => Console.WriteLine(x.Średnia + " " + x.Imie + " " + x.Nazwisko));
+    }
 }
