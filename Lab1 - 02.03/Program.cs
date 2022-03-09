@@ -123,6 +123,10 @@ public class PersonProperties
 
         public static Money operator +(Money moneya, Money moneyb)
         {
+            if (moneya.Currency != moneyb.Currency)
+            {
+                throw new ArgumentException("Inne waluty");
+            }
             return new Money(moneya.Value + moneyb.Value, moneya.Currency);
         }
 
@@ -131,11 +135,19 @@ public class PersonProperties
 
         public static bool operator >(Money a, Money b)
         {
+            if (a.Currency != b.Currency)
+            {
+                throw new ArgumentException("Inne waluty");
+            }
             return a.Value > b.Value;
         }
 
         public static bool operator <(Money a, Money b)
         {
+            if (a.Currency != b.Currency)
+            {
+                throw new ArgumentException("Inne waluty");
+            }
             return a.Value < b.Value;
         }
 
@@ -211,15 +223,12 @@ public class PersonProperties
 
         public bool consume(int amount)
         {
-            if (amount > 0)
+            if (amount > _level)
             {
-                return true;
+                return false;
             }
-            if (_level - amount < Capacity || _level - amount > 0)
-            {
-                return true;
-            }
-            return false;
+            Level = _level - amount;
+            return true;
         }
 
         // Ćwiczenie 9 
@@ -229,12 +238,14 @@ public class PersonProperties
         {
             if (_level + amount > Capacity)
             {
-                int result = Capacity - amount;
-                _level = Capacity;
-                return result > 0;
+                return false;
             }
-            _level -= amount;
-            return true;
+            if (sourceTank.consume(amount))
+            {
+                this.refuel(amount);
+                return true;
+            }
+            return false;
         }
     }
 
