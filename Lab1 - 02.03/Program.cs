@@ -1,13 +1,61 @@
-﻿class Program
+﻿static class StringExt
 {
-    //static void Main(string[] args)
-    //{
-    //    PersonProperties PersonProperties = PersonProperties.of("Kacperek");
-    //    Console.WriteLine(PersonProperties.FirstName);
-    //}
+    public static String Double(this String instance)
+    {
+        return instance + instance;
+    }
 }
 public class PersonProperties
 {
+    static void Main(string[] args)
+    {
+        PersonProperties PersonProperties = PersonProperties.of("Kacperek");
+        Console.WriteLine(PersonProperties.FirstName);
+
+
+        Student[] student = new Student[]
+       {
+            new Student()
+            {
+                Nazwisko = "Zięba",
+                Imie = "Hubert",
+                Średnia = 8m
+            },
+            new Student()
+            {
+                Nazwisko = "Zięba",
+                Imie = "Kacper",
+                Średnia = 1m
+            },
+            new Student()
+            {
+                Nazwisko = "Zięba",
+                Imie = "Maciek",
+                Średnia = 6m
+            }
+       };
+        Array.Sort(student);
+        Array.ForEach(student, x => Console.WriteLine(x.Średnia + " " + x.Imie + " " + x.Nazwisko));
+
+        Students[] students =
+            {
+                new Students(){ECTS=10,Name="Jurand"},
+                new Students(){ECTS=45,Name="Mateusz"},
+                new Students(){ECTS=3,Name="Maciek"},
+                new Students(){ECTS=1,Name="Kacper"},
+                new Students(){ECTS=90,Name="Pan Wykładowca"}
+            };
+            Array.Sort(students);
+        foreach (var item in students)
+        {
+            Console.WriteLine(item.ECTS + " " + item.Name);
+        }
+
+        Console.WriteLine("abcd".Double());
+
+
+
+    }
     private string _firstName;
 
     private PersonProperties(string firstName)
@@ -161,6 +209,7 @@ public class PersonProperties
         {
             return (float)money.Value;
         }
+
     }
 
     // KLASY ZE STANEM 
@@ -263,7 +312,7 @@ public class PersonProperties
         {
             if (!(obj is Student))
             {
-                throw new ArgumentException("To nie student, to wykłądowca");
+                throw new ArgumentException("To nie student, to wykładowca");
             }
             Student student = obj as Student;
             return Średnia.CompareTo(student.Średnia);
@@ -271,30 +320,20 @@ public class PersonProperties
             return Imie.CompareTo(student.Imie);
         }
     } 
-    private static void Main(string[] args)
+    class Students : IComparable<Students>
     {
-        Student[] student = new Student[]
+        public int ECTS { get; set; }
+        public string Name { get; set; }
+
+        //posortować studentów wg ECTS, a dla studentów o tym samym ECTS wg Name
+        public int CompareTo(Students other)
         {
-            new Student()
-            {
-                Nazwisko = "Zięba",
-                Imie = "Hubert",
-                Średnia = 3m
-            },
-            new Student()
-            {
-                Nazwisko = "Zięba",
-                Imie = "Kacper",
-                Średnia = 4m
-            },
-            new Student()
-            {
-                Nazwisko = "Zięba",
-                Imie = "Maciek",
-                Średnia = 5m
-            }
-        };
-        Array.Sort(student);
-        Array.ForEach(student, x => Console.WriteLine(x.Średnia + " " + x.Imie + " " + x.Nazwisko));
+            if(ReferenceEquals(this, other)) return 0;
+            if(ReferenceEquals(null, other)) return 1;  
+            var Resulcik = ECTS.CompareTo(other.ECTS);
+            if(Resulcik != 0) return Resulcik;
+            return Name.CompareTo(other.Name);
+        }
     }
 }
+
