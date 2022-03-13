@@ -1,4 +1,19 @@
-﻿static class StringExt
+﻿using static PersonProperties;
+
+public static class MoneyExtension
+{
+    public static Money ToCurency(this Money moneys, Currency currency, decimal kurs)
+    {
+        if (currency == moneys.Currency)
+        {
+            new ArgumentException("Nie można konwertowac tej samej waluty");
+
+        }
+
+        return Money.Of(moneys.Value * kurs, moneys.Currency);
+    }
+}
+static class StringExt
 {
     public static String Double(this String instance)
     {
@@ -13,21 +28,21 @@ public class PersonProperties
         Console.WriteLine(PersonProperties.FirstName);
 
 
-        Student[] student = new Student[]
+        StudentS[] student = new StudentS[]
        {
-            new Student()
+            new StudentS()
             {
                 Nazwisko = "Zięba",
                 Imie = "Hubert",
                 Średnia = 8m
             },
-            new Student()
+            new StudentS()
             {
                 Nazwisko = "Zięba",
                 Imie = "Kacper",
                 Średnia = 1m
             },
-            new Student()
+            new StudentS()
             {
                 Nazwisko = "Zięba",
                 Imie = "Maciek",
@@ -45,7 +60,7 @@ public class PersonProperties
                 new Students(){ECTS=1,Name="Kacper"},
                 new Students(){ECTS=90,Name="Pan Wykładowca"}
             };
-            Array.Sort(students);
+        Array.Sort(students);
         foreach (var item in students)
         {
             Console.WriteLine(item.ECTS + " " + item.Name);
@@ -53,9 +68,41 @@ public class PersonProperties
 
         Console.WriteLine("abcd".Double());
 
+        Student[] studenty =
+        {
 
+                new Student(){Name="Mateusz",Surname="Nosel", Srednia=5.0},
+                 new Student(){Name="Kacper",Surname="Puzio", Srednia=4.0},
+                  new Student(){Name="Maciek",Surname="Misiak", Srednia=3.2},
+                  new Student(){Name="Jurand",Surname="Juri", Srednia=5.0},
+
+
+
+            };
+        Array.Sort(studenty);
+        Console.WriteLine();
+        Console.WriteLine("Sortowanie po Name: ");
+        Console.WriteLine();
+        foreach (var item in studenty)
+        {
+            Console.WriteLine(item.Name + " " + item.Surname + " " + item.Srednia);
+        }
+        Console.WriteLine();
+        Console.WriteLine("abcd".Double());
+        Console.WriteLine();
+
+        moneys = Money.Of(100, Currency.PLN);
+        var res2 = moneys.ToCurency(Currency.USD, 4.1m);
+        Console.WriteLine(res2);
+
+
+        moneys = Money.Of(50, Currency.PLN);
+        var res3 = moneys.ToCurency(Currency.PLN, 4.1m);
+        Console.WriteLine(res3);
 
     }
+
+
     private string _firstName;
 
     private PersonProperties(string firstName)
@@ -88,6 +135,8 @@ public class PersonProperties
             }
         }
     }
+
+
 
     // Klasa Money 
     public enum Currency
@@ -301,25 +350,42 @@ public class PersonProperties
     // Ćwiczenie 10 
     // Dla klasy Student zdefiniuj interfejs IComparable w jednej z poniższych wersji:
 
-    public class Student : IComparable
+    public class StudentS : IComparable
     {
 
         public string Nazwisko { get; set; }
         public string Imie { get; set; }
         public decimal Średnia { get; set; }
 
-        public int CompareTo(object?obj)
+        public int CompareTo(object? obj)
         {
-            if (!(obj is Student))
+            if (!(obj is StudentS))
             {
                 throw new ArgumentException("To nie student, to wykładowca");
             }
-            Student student = obj as Student;
+            StudentS student = obj as StudentS;
             return Średnia.CompareTo(student.Średnia);
             return Nazwisko.CompareTo(student.Nazwisko);
             return Imie.CompareTo(student.Imie);
         }
-    } 
+    }
+    // drugi sposób 
+    class Student : IComparable<Student>
+    {
+
+
+        public string Name { get; set; }
+        public string Surname { get; set; }
+        public double Srednia { get; set; }
+        public int CompareTo(Student other)
+        {
+            if (ReferenceEquals(this, other)) return 0;
+            if (ReferenceEquals(null, other)) return 1;
+            var studentsCompare = Name.CompareTo(other.Name);
+            if (studentsCompare != 0) return studentsCompare;
+            return Name.CompareTo(other.Srednia);
+        }
+    }
     class Students : IComparable<Students>
     {
         public int ECTS { get; set; }
@@ -328,12 +394,11 @@ public class PersonProperties
         //posortować studentów wg ECTS, a dla studentów o tym samym ECTS wg Name
         public int CompareTo(Students other)
         {
-            if(ReferenceEquals(this, other)) return 0;
-            if(ReferenceEquals(null, other)) return 1;  
+            if (ReferenceEquals(this, other)) return 0;
+            if (ReferenceEquals(null, other)) return 1;
             var Resulcik = ECTS.CompareTo(other.ECTS);
-            if(Resulcik != 0) return Resulcik;
+            if (Resulcik != 0) return Resulcik;
             return Name.CompareTo(other.Name);
         }
     }
 }
-
