@@ -1,18 +1,7 @@
-﻿using static PersonProperties;
+﻿
+using System.Linq;
 
-public static class MoneyExtension
-{
-    public static Money ToCurency(this Money moneys, Currency currency, decimal kurs)
-    {
-        if (currency == moneys.Currency)
-        {
-            new ArgumentException("Nie można konwertowac tej samej waluty");
 
-        }
-
-        return Money.Of(moneys.Value * kurs, moneys.Currency);
-    }
-}
 static class StringExt
 {
     public static String Double(this String instance)
@@ -21,6 +10,320 @@ static class StringExt
     }
 }
 public class PersonProperties
+{
+    private string _firstName;
+
+    private PersonProperties(string firstName)
+    {
+        _firstName = firstName;
+    }
+
+    public static PersonProperties of(string firstName)
+    {
+        if (firstName.Length >= 2)
+        {
+            return new PersonProperties(firstName);
+        }
+        else
+        {
+            throw new ArgumentException("Nazwa jest za krotka");
+        }
+    }
+    public string FirstName
+    {
+        get
+        {
+            return _firstName;
+        }
+        set
+        {
+            if (value.Length >= 3)
+            {
+                _firstName = value;
+            }
+        }
+    }
+}
+public enum Currency
+{
+    PLN = 1,
+    USD = 2,
+    EUR = 3,
+}
+public class Money : IEquatable<Money>
+{
+    private readonly decimal _value;
+    private readonly Currency _currency;
+    private Money(decimal value, Currency currency)
+    {
+        _value = value;
+        _currency = currency;
+    }
+
+    public static Money Of(decimal value, Currency currency)
+    {
+        return value < 0 ? null : new Money(value, currency);
+    }
+
+    // Ćwiczenie 1 
+    // Zdefiniuj metodę wytwórczą OfWithException, która w przypadku nie możności zbudowania poprawnego
+    // obiektu zgłasza wyjątek.
+    public static Money? OfWithException(decimal value, Currency currency)
+    {
+        if (value < 0)
+        {
+            throw new ArgumentException("Hubert nie masz pieniędzy na koncie");
+        }
+        else
+        {
+            return new Money(value, currency);
+        }
+    }
+
+    // Ćwiczenie 2 
+    // Zdefiniuj metodę wytwórczą ParseValue(string valueStr, Currency currency), która tworzy obiekt na
+    // podstawie łańcucha z wartością kwoty np. ”13,45”.
+    public static Money? ParseValue(string value, Currency currency)
+    {
+        decimal parseValue;
+        bool succes = decimal.TryParse(value, out parseValue);
+        if (succes)
+        {
+            return Money.Of(parseValue, currency);
+        }
+        else
+        {
+            throw new ArgumentException("Niepoprawny argument");
+        }
+    }
+
+    public bool Equals(Money? other)
+    {
+        throw new NotImplementedException();
+    }
+
+    public decimal Value
+    {
+        get { return _value; }
+    }
+
+    // Ćwiczenie 3 
+    // Zdefiniuj właściwość Currency tylko do zwracania waluty
+
+    public Currency Currency { get { return _currency; } }
+
+    // Ćwiczenie 4 
+    // Zdefiniuj operator mnożenia dla operandów typu decimal i Money.
+
+    public static Money operator *(Money money, decimal value)
+    {
+        return Money.Of(money.Value * value, money.Currency);
+    }
+
+    public static Money operator *(decimal value, Money money)
+    {
+        return Money.Of(money._value * value, money._currency);
+    }
+
+    // Ćwiczenie 5 
+    // Zdefiniuj operator dodawania dla dwóch obiektów typu Money
+
+    public static Money operator +(Money moneya, Money moneyb)
+    {
+        if (moneya.Currency != moneyb.Currency)
+        {
+            throw new ArgumentException("Inne waluty");
+        }
+        return new Money(moneya.Value + moneyb.Value, moneya.Currency);
+    }
+
+    // Ćwiczenie 6
+    // Zdefiniuj operator < dla klasy Money.
+
+    public static bool operator >(Money a, Money b)
+    {
+        if (a.Currency != b.Currency)
+        {
+            throw new ArgumentException("Inne waluty");
+        }
+        return a.Value > b.Value;
+    }
+
+    public static bool operator <(Money a, Money b)
+    {
+        if (a.Currency != b.Currency)
+        {
+            throw new ArgumentException("Inne waluty");
+        }
+        return a.Value < b.Value;
+    }
+
+    // Ćwiczenie 7 
+    // Zdefiniuj opereator jawnego rzutowania do typu float 
+
+    // Operatory jawne ( explicit ) 
+    // Operatory niejawne ( implicit ) 
+
+    public static explicit operator float(Money money)
+    {
+        return (float)money.Value;
+    }
+
+}
+
+// KLASY ZE STANEM 
+public class Tank
+{
+    public readonly int Capacity;
+    private int _level;
+
+    public Tank(int capacity)
+    {
+        Capacity = capacity;
+    }
+
+    public int Level
+    {
+        get { return _level; }
+        private set
+        {
+            if (value < 0 || value > Capacity)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+            _level = value;
+        }
+    }
+
+    // Metoda dolewania 
+    public bool refuel1(int amount)
+    {
+        if (amount < 0)
+        {
+            return false;
+        }
+        if (_level + amount > Capacity)
+        {
+            return false;
+        }
+        _level += amount;
+        return true;
+    }
+
+    // Drugi sposób 
+    public void refuel(int amount)
+    {
+        if (amount < 0)
+        {
+            throw new ArgumentException("Argument can't be non positive");
+        }
+        if (_level + amount > Capacity)
+        {
+            throw new ArgumentException("Argument is to large!");
+        }
+        _level += amount;
+    }
+
+
+    // Ćwiczenie 8
+    // Zaimplementuje metodę bool consume(int amount), która pobiera ze zbiornika ciecz o objętości w amount.
+    // W sytuacji, gdy niemożliwe jest pobranie takiej ilości cieczy metoda powinna zwrócić false;
+
+    public bool consume(int amount)
+    {
+        if (amount > _level)
+        {
+            return false;
+        }
+        Level = _level - amount;
+        return true;
+    }
+
+    // Ćwiczenie 9 
+    // Zaimplementuj metodę przelewania z jednego zbiornika do drugiego o poniższej sygnaturze
+
+    public bool refuel(Tank sourceTank, int amount)
+    {
+        if (_level + amount > Capacity)
+        {
+            return false;
+        }
+        if (sourceTank.consume(amount))
+        {
+            this.refuel(amount);
+            return true;
+        }
+        return false;
+    }
+}
+
+// Ćwiczenie 10 
+// Dla klasy Student zdefiniuj interfejs IComparable w jednej z poniższych wersji:
+
+public class StudentS : IComparable
+{
+
+    public string Nazwisko { get; set; }
+    public string Imie { get; set; }
+    public decimal Średnia { get; set; }
+
+    public int CompareTo(object? obj)
+    {
+        if (!(obj is StudentS))
+        {
+            throw new ArgumentException("To nie student, to wykładowca");
+        }
+        StudentS student = obj as StudentS;
+        return Średnia.CompareTo(student.Średnia);
+        return Nazwisko.CompareTo(student.Nazwisko);
+        return Imie.CompareTo(student.Imie);
+    }
+}
+// drugi sposób 
+class Student : IComparable<Student>
+{
+    public string Name { get; set; }
+    public string Surname { get; set; }
+    public double Srednia { get; set; }
+    public int CompareTo(Student other)
+    {
+        if (ReferenceEquals(this, other)) return 0;
+        if (ReferenceEquals(null, other)) return 1;
+        var studentsCompare = Name.CompareTo(other.Name);
+        if (studentsCompare != 0) return studentsCompare;
+        return Name.CompareTo(other.Srednia);
+    }
+}
+class Students : IComparable<Students>
+{
+    public int ECTS { get; set; }
+    public string Name { get; set; }
+
+    //posortować studentów wg ECTS, a dla studentów o tym samym ECTS wg Name
+    public int CompareTo(Students other)
+    {
+        if (ReferenceEquals(this, other)) return 0;
+        if (ReferenceEquals(null, other)) return 1;
+        var Resulcik = ECTS.CompareTo(other.ECTS);
+        if (Resulcik != 0) return Resulcik;
+        return Name.CompareTo(other.Name);
+    }
+}
+public static class MoneyExtension
+{
+    public static Money ToCurrency(this Money money, Currency currency, decimal kurs)
+    {
+        if (currency != money.Currency)
+        {
+            return Money.Of(money.Value * kurs, money.Currency);
+        }
+        else
+        {
+            throw new ArgumentException("Nie można konwertować tej samej waluty!");
+        }
+    }
+}
+class Program
 {
     static void Main(string[] args)
     {
@@ -91,314 +394,14 @@ public class PersonProperties
         Console.WriteLine("abcd".Double());
         Console.WriteLine();
 
-        moneys = Money.Of(100, Currency.PLN);
-        var res2 = moneys.ToCurency(Currency.USD, 4.1m);
+        Money money = Money.Of(100, Currency.PLN);
+        var res2 = money.ToCurrency(Currency.USD, 4.1m);
         Console.WriteLine(res2);
 
 
-        moneys = Money.Of(50, Currency.PLN);
-        var res3 = moneys.ToCurency(Currency.PLN, 4.1m);
-        Console.WriteLine(res3);
+        money = Money.Of(100, Currency.PLN);
+        var result = money.ToCurrency(Currency.USD, 4.1m);
+        Console.WriteLine(result);
 
-    }
-
-
-    private string _firstName;
-
-    private PersonProperties(string firstName)
-    {
-        _firstName = firstName;
-    }
-
-    public static PersonProperties of(string firstName)
-    {
-        if (firstName.Length >= 2)
-        {
-            return new PersonProperties(firstName);
-        }
-        else
-        {
-            throw new ArgumentException("Nazwa jest za krotka");
-        }
-    }
-    public string FirstName
-    {
-        get
-        {
-            return _firstName;
-        }
-        set
-        {
-            if (value.Length >= 3)
-            {
-                _firstName = value;
-            }
-        }
-    }
-
-
-
-    // Klasa Money 
-    public enum Currency
-    {
-        PLN = 1,
-        USD = 2,
-        EUR = 3
-    }
-    public class Money
-    {
-        private readonly decimal _value;
-        private readonly Currency _currency;
-        private Money(decimal value, Currency currency)
-        {
-            _value = value;
-            _currency = currency;
-        }
-
-        public static Money Of(decimal value, Currency currency)
-        {
-            return value < 0 ? null : new Money(value, currency);
-        }
-
-        // Ćwiczenie 1 
-        // Zdefiniuj metodę wytwórczą OfWithException, która w przypadku nie możności zbudowania poprawnego
-        // obiektu zgłasza wyjątek.
-        public static Money? OfWithException(decimal value, Currency currency)
-        {
-            if (value < 0)
-            {
-                throw new ArgumentException("Hubert nie masz pieniędzy na koncie");
-            }
-            else
-            {
-                return new Money(value, currency);
-            }
-        }
-
-        // Ćwiczenie 2 
-        // Zdefiniuj metodę wytwórczą ParseValue(string valueStr, Currency currency), która tworzy obiekt na
-        // podstawie łańcucha z wartością kwoty np. ”13,45”.
-        public static Money? ParseValue(string value, Currency currency)
-        {
-            decimal parseValue;
-            bool succes = decimal.TryParse(value, out parseValue);
-            if (succes)
-            {
-                return Money.Of(parseValue, currency);
-            }
-            else
-            {
-                throw new ArgumentException("Niepoprawny argument");
-            }
-        }
-
-        public decimal Value
-        {
-            get { return _value; }
-        }
-
-        // Ćwiczenie 3 
-        // Zdefiniuj właściwość Currency tylko do zwracania waluty
-
-        public Currency Currency { get { return _currency; } }
-
-        // Ćwiczenie 4 
-        // Zdefiniuj operator mnożenia dla operandów typu decimal i Money.
-
-        public static Money operator *(Money money, decimal value)
-        {
-            return Money.Of(money.Value * value, money.Currency);
-        }
-
-        public static Money operator *(decimal value, Money money)
-        {
-            return Money.Of(money._value * value, money._currency);
-        }
-
-        // Ćwiczenie 5 
-        // Zdefiniuj operator dodawania dla dwóch obiektów typu Money
-
-        public static Money operator +(Money moneya, Money moneyb)
-        {
-            if (moneya.Currency != moneyb.Currency)
-            {
-                throw new ArgumentException("Inne waluty");
-            }
-            return new Money(moneya.Value + moneyb.Value, moneya.Currency);
-        }
-
-        // Ćwiczenie 6
-        // Zdefiniuj operator < dla klasy Money.
-
-        public static bool operator >(Money a, Money b)
-        {
-            if (a.Currency != b.Currency)
-            {
-                throw new ArgumentException("Inne waluty");
-            }
-            return a.Value > b.Value;
-        }
-
-        public static bool operator <(Money a, Money b)
-        {
-            if (a.Currency != b.Currency)
-            {
-                throw new ArgumentException("Inne waluty");
-            }
-            return a.Value < b.Value;
-        }
-
-        // Ćwiczenie 7 
-        // Zdefiniuj opereator jawnego rzutowania do typu float 
-
-        // Operatory jawne ( explicit ) 
-        // Operatory niejawne ( implicit ) 
-
-        public static explicit operator float(Money money)
-        {
-            return (float)money.Value;
-        }
-
-    }
-
-    // KLASY ZE STANEM 
-    public class Tank
-    {
-        public readonly int Capacity;
-        private int _level;
-
-        public Tank(int capacity)
-        {
-            Capacity = capacity;
-        }
-
-        public int Level
-        {
-            get { return _level; }
-            private set
-            {
-                if (value < 0 || value > Capacity)
-                {
-                    throw new ArgumentOutOfRangeException();
-                }
-                _level = value;
-            }
-        }
-
-        // Metoda dolewania 
-        public bool refuel1(int amount)
-        {
-            if (amount < 0)
-            {
-                return false;
-            }
-            if (_level + amount > Capacity)
-            {
-                return false;
-            }
-            _level += amount;
-            return true;
-        }
-
-        // Drugi sposób 
-        public void refuel(int amount)
-        {
-            if (amount < 0)
-            {
-                throw new ArgumentException("Argument can't be non positive");
-            }
-            if (_level + amount > Capacity)
-            {
-                throw new ArgumentException("Argument is to large!");
-            }
-            _level += amount;
-        }
-
-
-        // Ćwiczenie 8
-        // Zaimplementuje metodę bool consume(int amount), która pobiera ze zbiornika ciecz o objętości w amount.
-        // W sytuacji, gdy niemożliwe jest pobranie takiej ilości cieczy metoda powinna zwrócić false;
-
-        public bool consume(int amount)
-        {
-            if (amount > _level)
-            {
-                return false;
-            }
-            Level = _level - amount;
-            return true;
-        }
-
-        // Ćwiczenie 9 
-        // Zaimplementuj metodę przelewania z jednego zbiornika do drugiego o poniższej sygnaturze
-
-        public bool refuel(Tank sourceTank, int amount)
-        {
-            if (_level + amount > Capacity)
-            {
-                return false;
-            }
-            if (sourceTank.consume(amount))
-            {
-                this.refuel(amount);
-                return true;
-            }
-            return false;
-        }
-    }
-
-    // Ćwiczenie 10 
-    // Dla klasy Student zdefiniuj interfejs IComparable w jednej z poniższych wersji:
-
-    public class StudentS : IComparable
-    {
-
-        public string Nazwisko { get; set; }
-        public string Imie { get; set; }
-        public decimal Średnia { get; set; }
-
-        public int CompareTo(object? obj)
-        {
-            if (!(obj is StudentS))
-            {
-                throw new ArgumentException("To nie student, to wykładowca");
-            }
-            StudentS student = obj as StudentS;
-            return Średnia.CompareTo(student.Średnia);
-            return Nazwisko.CompareTo(student.Nazwisko);
-            return Imie.CompareTo(student.Imie);
-        }
-    }
-    // drugi sposób 
-    class Student : IComparable<Student>
-    {
-
-
-        public string Name { get; set; }
-        public string Surname { get; set; }
-        public double Srednia { get; set; }
-        public int CompareTo(Student other)
-        {
-            if (ReferenceEquals(this, other)) return 0;
-            if (ReferenceEquals(null, other)) return 1;
-            var studentsCompare = Name.CompareTo(other.Name);
-            if (studentsCompare != 0) return studentsCompare;
-            return Name.CompareTo(other.Srednia);
-        }
-    }
-    class Students : IComparable<Students>
-    {
-        public int ECTS { get; set; }
-        public string Name { get; set; }
-
-        //posortować studentów wg ECTS, a dla studentów o tym samym ECTS wg Name
-        public int CompareTo(Students other)
-        {
-            if (ReferenceEquals(this, other)) return 0;
-            if (ReferenceEquals(null, other)) return 1;
-            var Resulcik = ECTS.CompareTo(other.ECTS);
-            if (Resulcik != 0) return Resulcik;
-            return Name.CompareTo(other.Name);
-        }
     }
 }
