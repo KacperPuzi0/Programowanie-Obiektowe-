@@ -101,44 +101,6 @@ class SimpleAggregate : IAggregate
     }
 }
 
-class ConvertAggregate : IAggregate
-{
-    internal int a = 5;
-    internal int b = 6;
-    internal int c = 2;
-    public IIterator createIterator()
-    {
-        return new ConvertAggregateIterator(this);
-    }
-}
-
-class ConvertAggregateIterator : IIterator
-{
-    private ConvertAggregate _aggregate;
-    private int backCount = 0;
-    public ConvertAggregateIterator(ConvertAggregate aggregate)
-    {
-        _aggregate = aggregate;
-    }
-    public int GetNext()
-    {
-        switch (++backCount)
-        {
-            case 1:
-                return _aggregate.c;
-            case 2:
-                return _aggregate.b;
-            case 3:
-                return _aggregate.a;
-            default: throw new NotImplementedException();
-        }
-    }
-
-    public bool HasNext()
-    {
-        return backCount > 0 || backCount < 3;
-    }
-}
 
 class SimpleAggregateIterator : IIterator
 {
@@ -194,11 +156,45 @@ public abstract class Scooter
 
 class ElectricScooter : Scooter
 {
-    public readonly decimal _batterieslevel;
-
+    private decimal _batterieslevel = 100;
+    public decimal BatteriesLevel
+    {
+        get { return _batterieslevel; }
+    }
+    public int MaxRange { get; set; }
+    public decimal ChargeBatteries()
+    {
+        if (_batterieslevel != 100 || _batterieslevel < 100)
+        {
+            while (_batterieslevel == 100)
+            {
+                _batterieslevel++;
+            }
+            return _batterieslevel;
+        }
+        else
+        {
+            return _batterieslevel;
+        }
+    }
     public override decimal Drive(int distance)
     {
-        throw new NotImplementedException();
+        decimal oneDrive = _batterieslevel / MaxRange;
+        if (_batterieslevel > 0)
+        {
+            while (distance != 0)
+            {
+                distance--;
+                _batterieslevel = _batterieslevel - oneDrive;
+            }
+            _mileage += distance;
+            return _batterieslevel;
+        }
+        return -1;
+    }
+    public override string ToString()
+    {
+        return $"ElectricScooter{{ BatteriesLevel: {BatteriesLevel}, MaxRange: {MaxRange}}}";
     }
 }
 
@@ -288,11 +284,14 @@ class Program
             Console.WriteLine(iterator.GetNext());
         }
 
-        IAggregate aggregate1 = new ConvertAggregate();  
-        IIterator iterator1 = aggregate1.createIterator();
-        while (iterator1.HasNext())
+        ElectricScooter[] scooters =
         {
-            Console.WriteLine(iterator1.GetNext());
+            new ElectricScooter(){Weight = 15, MaxSpeed = 100},
+            new ElectricScooter(){Weight = 25, MaxSpeed = 120},
+        };
+        foreach (var scooter in scooters)
+        {
+            Console.WriteLine("time for distance" + scooter.Drive(96));
         }
     }
 }
