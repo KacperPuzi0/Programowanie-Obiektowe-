@@ -182,46 +182,26 @@ class KickScooter : Scooter
 
 public interface Flyable
 {
-    bool TakeOff();
-    int Fly(int distance);
-    bool Land();
+    void Fly();
 }
 public interface Swimmingable
 {
-    int Swim(int distance);
+    void Swim();
 
 }
 public class Duck : Flyable, Swimmingable
 {
     public string Name { get; set; }
     public string Surname { get; set;}
-    public void fly()
+
+    public void Fly()
     {
-        Console.WriteLine("Lataju");
+        throw new NotImplementedException();
     }
 
-    public int Fly(int distance)
+    public void Swim()
     {
-        Console.WriteLine("FLY");
-        return 0;
-    }
-
-    public bool Land()
-    {
-        Console.WriteLine("LAND");
-        return true;
-    }
-
-    public int Swim(int distance)
-    {
-        Console.WriteLine("SWIM");
-        return 0;
-    }
-
-    public bool TakeOff()
-    {
-        Console.WriteLine("TAKE OFF");
-        return true;
+        throw new NotImplementedException();
     }
 }
 
@@ -229,24 +209,11 @@ public class Wasp : Flyable
 {
     public string Name { get; set;}
     public string Surname { get; set;}
-
-    public int Fly(int distance)
+    public void Fly()
     {
-        Console.WriteLine("FLY");
-        return 0;
+        throw new NotImplementedException();
     }
 
-    public bool Land()
-    {
-        Console.WriteLine("LAND");
-        return true;
-    }
-
-    public bool TakeOff()
-    {
-        Console.WriteLine("TAKE OFF");
-        return true;
-    }
 }
 
 public class Hydroplane : Flyable, Swimmingable
@@ -254,30 +221,26 @@ public class Hydroplane : Flyable, Swimmingable
     public string Name { get; set;}
     public string Surname { get; set; }
 
-    public int Fly(int distance)
+    public void Swim()
     {
-        Console.WriteLine("FLY");
-        return 0;
+        throw new NotImplementedException();
     }
 
-    public bool Land()
+    public void Fly()
     {
-        Console.WriteLine("LAND");
-        return true;
-    }
-
-    public int Swim(int distance)
-    {
-        Console.WriteLine("SWIM");
-        return 0;
-    }
-
-    public bool TakeOff()
-    {
-        Console.WriteLine("TAKE OFF");
-        return true;
+        throw new NotImplementedException();
     }
 }
+
+
+
+
+/// //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// ĆWICZENIE 3
+
+
+
+
 
 class Program
 {
