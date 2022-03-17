@@ -45,40 +45,6 @@ class User
     public AbstractMessage LastMessage { get; set; }
 }
 
-public interface Ifly 
-{
-    void fly();
-}
-public interface Iswim
-{
-    void swim();
-}
-public class Duck : Ifly, Iswim
-{
-    public void fly()
-    {
-        throw new NotImplementedException();
-    }
-
-    public void swim()
-    {
-        throw new NotImplementedException();
-    }
-}
-
-public class Hydro : Ifly, Iswim
-{
-    public void fly()
-    {
-        throw new NotImplementedException();
-    }
-
-    public void swim()
-    {
-        throw new NotImplementedException();
-    }
-}
-
 interface IAggregate
 {
     IIterator createIterator();
@@ -137,7 +103,7 @@ class SimpleAggregateIterator : IIterator
 
 
 /// ///////////////////////////////////////////////////////////////////////////////////////
-
+/// ĆWICZENIE 1 
 
 
 
@@ -150,7 +116,7 @@ public abstract class Scooter
     public abstract decimal Drive(int distance);
     public override string ToString()
     {
-        return $"Vehicle{{Weight: {Weight}, MaxSpeed: {MaxSpeed}, Mileage: {_mileage}}}";
+        return $"Scooter{{Weight: {Weight}, MaxSpeed: {MaxSpeed}, Mileage: {_mileage}}}";
     }
 }
 
@@ -161,12 +127,12 @@ class ElectricScooter : Scooter
     {
         get { return _batterieslevel; }
     }
-    public int MaxRange { get; set; }
+    public decimal MaxRange { get; init; }
     public decimal ChargeBatteries()
     {
         if (_batterieslevel != 100 || _batterieslevel < 100)
         {
-            while (_batterieslevel == 100)
+            while (_batterieslevel != 100)
             {
                 _batterieslevel++;
             }
@@ -180,7 +146,7 @@ class ElectricScooter : Scooter
     public override decimal Drive(int distance)
     {
         decimal oneDrive = _batterieslevel / MaxRange;
-        if (_batterieslevel > 0)
+        if (oneDrive > 0)
         {
             while (distance != 0)
             {
@@ -194,7 +160,7 @@ class ElectricScooter : Scooter
     }
     public override string ToString()
     {
-        return $"ElectricScooter{{ BatteriesLevel: {BatteriesLevel}, MaxRange: {MaxRange}}}";
+        return $"Scooter{{Weight: {Weight}, MaxSpeed: {MaxSpeed}, Mileage: {Mileage}}}";
     }
 }
 
@@ -203,6 +169,113 @@ class KickScooter : Scooter
     public override decimal Drive(int distance)
     {
         throw new NotImplementedException();
+    }
+}
+
+
+
+
+/// //////////////////////////////////////////////////////////////////////////////////
+/// ĆWICZENIE 2 
+
+
+
+public interface Flyable
+{
+    bool TakeOff();
+    int Fly(int distance);
+    bool Land();
+}
+public interface Swimmingable
+{
+    int Swim(int distance);
+
+}
+public class Duck : Flyable, Swimmingable
+{
+    public string Name { get; set; }
+    public string Surname { get; set;}
+    public void fly()
+    {
+        Console.WriteLine("Lataju");
+    }
+
+    public int Fly(int distance)
+    {
+        Console.WriteLine("FLY");
+        return 0;
+    }
+
+    public bool Land()
+    {
+        Console.WriteLine("LAND");
+        return true;
+    }
+
+    public int Swim(int distance)
+    {
+        Console.WriteLine("SWIM");
+        return 0;
+    }
+
+    public bool TakeOff()
+    {
+        Console.WriteLine("TAKE OFF");
+        return true;
+    }
+}
+
+public class Wasp : Flyable
+{
+    public string Name { get; set;}
+    public string Surname { get; set;}
+
+    public int Fly(int distance)
+    {
+        Console.WriteLine("FLY");
+        return 0;
+    }
+
+    public bool Land()
+    {
+        Console.WriteLine("LAND");
+        return true;
+    }
+
+    public bool TakeOff()
+    {
+        Console.WriteLine("TAKE OFF");
+        return true;
+    }
+}
+
+public class Hydroplane : Flyable, Swimmingable
+{
+    public string Name { get; set;}
+    public string Surname { get; set; }
+
+    public int Fly(int distance)
+    {
+        Console.WriteLine("FLY");
+        return 0;
+    }
+
+    public bool Land()
+    {
+        Console.WriteLine("LAND");
+        return true;
+    }
+
+    public int Swim(int distance)
+    {
+        Console.WriteLine("SWIM");
+        return 0;
+    }
+
+    public bool TakeOff()
+    {
+        Console.WriteLine("TAKE OFF");
+        return true;
     }
 }
 
@@ -270,12 +343,6 @@ class Program
         }
         Console.WriteLine($"Wysłano wiadomości email: {EmailCounter}");
 
-        Ifly[] flyingObject =
-        {
-            new Duck(),
-            new Hydro()
-        };
-
         //Przykład iteratora 
         IAggregate aggregate = new SimpleAggregate();
         IIterator iterator = aggregate.createIterator();
@@ -284,14 +351,39 @@ class Program
             Console.WriteLine(iterator.GetNext());
         }
 
+
+        // ćwiczenie 1
         ElectricScooter[] scooters =
         {
-            new ElectricScooter(){Weight = 15, MaxSpeed = 100},
-            new ElectricScooter(){Weight = 25, MaxSpeed = 120},
+            new ElectricScooter(){Weight = 15, MaxSpeed = 100, MaxRange = 5},
+            new ElectricScooter(){Weight = 25, MaxSpeed = 120, MaxRange = 10 }
         };
         foreach (var scooter in scooters)
         {
-            Console.WriteLine("time for distance" + scooter.Drive(96));
+            Console.WriteLine("Zostało :" + " " + scooter.Drive(5) + "%" + " " + "Bateri");
+            Console.WriteLine("Bateria naładowana w :" + " " + scooter.ChargeBatteries() + " " + "%");
+        }
+
+        // ćwiczenie 2
+        Object[] objects =
+        {
+            new Duck(){Name = "Kasia", Surname= "Kaaczucha"},
+            new Wasp(){Name = "Jolanta", Surname="Osa"},
+            new Hydroplane(){Name ="Bob", Surname = "Budowniczy"},
+            new Wasp(){Name = "Antonio", Surname = "Szerszeń"},
+            new Hydroplane(){Name ="Karo", Surname= "XXX"}
+        };
+        int objectCounter = 0;
+        foreach (var obj in objects)
+        {
+            if (obj is Flyable && obj is Swimmingable)
+            {
+                objectCounter++;
+            }
+            if (obj is Flyable && obj is Swimmingable)
+            {
+                Console.WriteLine("Objektów pływająco latających jest :" + " " + objectCounter);
+            }
         }
     }
 }
