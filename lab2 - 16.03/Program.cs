@@ -371,19 +371,17 @@ class Program
             new Wasp(){Name = "Jolanta", Surname="Osa"},
             new Hydroplane(){Name ="Bob", Surname = "Budowniczy"},
             new Wasp(){Name = "Antonio", Surname = "Szerszeń"},
-            new Hydroplane(){Name ="Karo", Surname= "XXX"}
+            new Hydroplane(){Name ="Karo", Surname= "XXX"},
+            new Duck(){Name = "Julia", Surname="Gołąbek"}
         };
-        int objectCounter = 0;
+        int ObjectCounter = 0;
         foreach (var obj in objects)
         {
             if (obj is Flyable && obj is Swimmingable)
             {
-                objectCounter++;
-            }
-            if (obj is Flyable && obj is Swimmingable)
-            {
-                Console.WriteLine("Objektów pływająco latających jest :" + " " + objectCounter);
+                ObjectCounter++;
             }
         }
+        Console.WriteLine($"Objektów pływająco latających jest : {ObjectCounter}");
     }
 }
