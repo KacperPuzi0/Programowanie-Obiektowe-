@@ -108,7 +108,7 @@ class ConvertAggregate : IAggregate
     internal int c = 2;
     public IIterator createIterator()
     {
-        return new SimpleAggregateIterator(this);
+        return new ConvertAggregateIterator(this);
     }
 }
 
@@ -122,7 +122,16 @@ class ConvertAggregateIterator : IIterator
     }
     public int GetNext()
     {
-        return _aggregate.a;
+        switch (++backCount)
+        {
+            case 1:
+                return _aggregate.c;
+            case 2:
+                return _aggregate.b;
+            case 3:
+                return _aggregate.a;
+            default: throw new NotImplementedException();
+        }
     }
 
     public bool HasNext()
@@ -161,6 +170,46 @@ class SimpleAggregateIterator : IIterator
         return cout < 3;
     }
 }
+
+
+
+
+/// ///////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+public abstract class Scooter
+{
+    public double Weight { get; init; }
+    public int MaxSpeed { get; init; }
+    protected int _mileage;
+    public int Mileage { get { return _mileage; } }
+    public abstract decimal Drive(int distance);
+    public override string ToString()
+    {
+        return $"Vehicle{{Weight: {Weight}, MaxSpeed: {MaxSpeed}, Mileage: {_mileage}}}";
+    }
+}
+
+class ElectricScooter : Scooter
+{
+    public readonly decimal _batterieslevel;
+
+    public override decimal Drive(int distance)
+    {
+        throw new NotImplementedException();
+    }
+}
+
+class KickScooter : Scooter
+{
+    public override decimal Drive(int distance)
+    {
+        throw new NotImplementedException();
+    }
+}
+
 class Program
 {
     static void Main(string[] args)
@@ -237,6 +286,13 @@ class Program
         while (iterator.HasNext())
         {
             Console.WriteLine(iterator.GetNext());
+        }
+
+        IAggregate aggregate1 = new ConvertAggregate();  
+        IIterator iterator1 = aggregate1.createIterator();
+        while (iterator1.HasNext())
+        {
+            Console.WriteLine(iterator1.GetNext());
         }
     }
 }
