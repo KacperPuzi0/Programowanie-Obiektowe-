@@ -38,69 +38,67 @@ class MessengerMessage : AbstractMessage
         return true;
     }
 }
-
 class User
 {
     public string Name { get; init; }
     public AbstractMessage LastMessage { get; set; }
 }
 
-interface IAggregate
-{
-    IIterator createIterator();
-}
-
-interface IIterator
-{
-    bool HasNext();
-    int GetNext();
-}
-
-class SimpleAggregate : IAggregate
-{
-    internal int a = 5;
-    internal int b = 6;
-    internal int c = 2;
-    public IIterator createIterator()
-    {
-        return new SimpleAggregateIterator(this);
-    }
-}
 
 
-class SimpleAggregateIterator : IIterator
-{
-    private SimpleAggregate _aggregate;
-    private int cout = 0;
-    public SimpleAggregateIterator(SimpleAggregate aggregate)
-    {
-        _aggregate = aggregate;
-    }
+//interface IAggregate
+//{
+//    IIterator createIterator();
+//}
 
-    public int GetNext()
-    {
+//interface IIterator
+//{
+//    bool HasNext();
+//    int GetNext();
+//}
 
-        switch (++cout)
-        {
-            case 1:
-                return _aggregate.a;
-            case 2:
-                return _aggregate.b;
-            case 3:
-                return _aggregate.c;
-            default:
-                throw new ArgumentException();
-        }
-    }
-
-    public bool HasNext()
-    {
-        return cout < 3;
-    }
-}
+//class SimpleAggregate : IAggregate
+//{
+//    internal int a = 5;
+//    internal int b = 6;
+//    internal int c = 2;
+//    public IIterator createIterator()
+//    {
+//        return new SimpleAggregateIterator(this);
+//    }
+//}
 
 
+//class SimpleAggregateIterator : IIterator
+//{
+//    private SimpleAggregate _aggregate;
+//    private int cout = 0;
+//    public SimpleAggregateIterator(SimpleAggregate aggregate)
+//    {
+//        _aggregate = aggregate;
+//    }
 
+//    public int GetNext()
+//    {
+
+//        switch (++cout)
+//        {
+//            case 1:
+//                return _aggregate.a;
+//            case 2:
+//                return _aggregate.b;
+//            case 3:
+//                return _aggregate.c;
+//            default:
+//                throw new ArgumentException();
+//        }
+//    }
+
+//    public bool HasNext()
+//    {
+//        return cout < 3;
+//    }
+//}
 
 /// ///////////////////////////////////////////////////////////////////////////////////////
 /// ĆWICZENIE 1 
@@ -240,8 +238,73 @@ public class Hydroplane : Flyable, Swimmingable
 
 
 
+public abstract class Aggregate
+{
+    public abstract Iterator CreateIterator();
+}
 
+public abstract class Iterator
+{
+    public abstract int GetNext();
+    public abstract bool HasNext();
+}
 
+public class ArrayIntAggregate : Aggregate
+{
+    internal int[] array = {1,2,3,4,5};
+    public override Iterator CreateIterator()
+    {
+        return new ArrayIntIterator(this);
+    }
+}
+
+public sealed class ArrayIntIterator : Iterator
+{
+    private int _index = 0;
+    private ArrayIntAggregate _aggregate;
+    public ArrayIntIterator(ArrayIntAggregate aggregate)
+    {
+        _aggregate = aggregate;
+    }
+    public override int GetNext()
+    {
+        return _aggregate.array[_index++];
+    }
+
+    public override bool HasNext()
+    {
+        return _index < _aggregate.array.Length;
+    }
+}
+
+// REVERSE 
+
+public class ReverseAggregate : Aggregate
+{
+    internal int[] array = { 1, 2, 3, 4, 5 };
+    public override Iterator CreateIterator()
+    {
+        return new ReverseIterator(this);
+    }
+}
+public sealed class ReverseIterator : Iterator
+{
+    private int _index1 = 0;
+    private ReverseAggregate _aggregate1;
+    public ReverseIterator(ReverseAggregate aggregate1)
+    {
+        _aggregate1 = aggregate1;    
+    }
+    public override int GetNext()
+    {
+        return _aggregate1.array[_index1++];
+    }
+
+    public override bool HasNext()
+    {
+        return _index1 < _aggregate1.array.Length;
+    }
+}
 class Program
 {
     static void Main(string[] args)
@@ -307,12 +370,12 @@ class Program
         Console.WriteLine($"Wysłano wiadomości email: {EmailCounter}");
 
         //Przykład iteratora 
-        IAggregate aggregate = new SimpleAggregate();
-        IIterator iterator = aggregate.createIterator();
-        while (iterator.HasNext())
-        {
-            Console.WriteLine(iterator.GetNext());
-        }
+        //IAggregate aggregate = new SimpleAggregate();
+        //IIterator iterator = aggregate.createIterator();
+        //while (iterator.HasNext())
+        //{
+        //    Console.WriteLine(iterator.GetNext());
+        //}
 
 
         // ćwiczenie 1
@@ -346,5 +409,18 @@ class Program
             }
         }
         Console.WriteLine($"Objektów pływająco latających jest : {ObjectCounter}");
+
+        // ćwieczenie 3
+        Aggregate aggregate = new ArrayIntAggregate();
+        for (var iterator = aggregate.CreateIterator(); iterator.HasNext();)
+        {
+            Console.WriteLine(iterator.GetNext());
+        }
+
+        Aggregate reverseaggregate = new ReverseAggregate();
+        for (var iterator = reverseaggregate.CreateIterator(); iterator.HasNext();)
+        {
+            Console.WriteLine(iterator.GetNext());
+        }
     }
 }
