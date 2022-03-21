@@ -281,7 +281,7 @@ public sealed class ArrayIntIterator : Iterator
 
 public class ReverseAggregate : Aggregate
 {
-    internal int[] array = { 1, 2, 3, 4, 5 };
+    internal int[] array1 = { 1, 2, 3, 4, 5 };
     public override Iterator CreateIterator()
     {
         return new ReverseIterator(this);
@@ -297,12 +297,17 @@ public sealed class ReverseIterator : Iterator
     }
     public override int GetNext()
     {
-        return _aggregate1.array[_index1++];
+        int[] reverseArray = new int[_aggregate1.array1.Length];
+        for (int i = 0; i < _aggregate1.array1.Length; i++)
+        {
+            reverseArray[i] = _aggregate1.array1[_aggregate1.array1.Length - 1 - i];
+        }
+        return reverseArray[_index1++];
     }
 
     public override bool HasNext()
     {
-        return _index1 < _aggregate1.array.Length;
+        return _index1 < _aggregate1.array1.Length;
     }
 }
 class Program

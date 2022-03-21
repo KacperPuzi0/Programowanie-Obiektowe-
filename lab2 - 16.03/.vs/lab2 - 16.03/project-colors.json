@@ -5,7 +5,12 @@
       "ProjectGuid": "ad509aa6-3ade-4a54-b620-c452c7320fe9",
       "DisplayName": "lab2 - 16.03",
       "ColorIndex": 0
+    },
+    "723d5c50-8048-4e1b-bab3-48fe8a1a4075": {
+      "ProjectGuid": "723d5c50-8048-4e1b-bab3-48fe8a1a4075",
+      "DisplayName": "Ćwiczenia",
+      "ColorIndex": 1
     }
   },
-  "NextColorIndex": 1
+  "NextColorIndex": 2
 }
