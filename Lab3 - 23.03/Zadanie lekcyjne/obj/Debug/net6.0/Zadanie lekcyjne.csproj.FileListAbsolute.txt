@@ -1,0 +1,15 @@
+C:\Users\Kacper\source\repos\Programowanie-Obiektowe-\Lab3 - 23.03\Zadanie lekcyjne\bin\Debug\net6.0\Zadanie lekcyjne.exe
+C:\Users\Kacper\source\repos\Programowanie-Obiektowe-\Lab3 - 23.03\Zadanie lekcyjne\bin\Debug\net6.0\Zadanie lekcyjne.deps.json
+C:\Users\Kacper\source\repos\Programowanie-Obiektowe-\Lab3 - 23.03\Zadanie lekcyjne\bin\Debug\net6.0\Zadanie lekcyjne.runtimeconfig.json
+C:\Users\Kacper\source\repos\Programowanie-Obiektowe-\Lab3 - 23.03\Zadanie lekcyjne\bin\Debug\net6.0\Zadanie lekcyjne.dll
+C:\Users\Kacper\source\repos\Programowanie-Obiektowe-\Lab3 - 23.03\Zadanie lekcyjne\bin\Debug\net6.0\ref\Zadanie lekcyjne.dll
+C:\Users\Kacper\source\repos\Programowanie-Obiektowe-\Lab3 - 23.03\Zadanie lekcyjne\bin\Debug\net6.0\Zadanie lekcyjne.pdb
+C:\Users\Kacper\source\repos\Programowanie-Obiektowe-\Lab3 - 23.03\Zadanie lekcyjne\obj\Debug\net6.0\Zadanie lekcyjne.csproj.AssemblyReference.cache
+C:\Users\Kacper\source\repos\Programowanie-Obiektowe-\Lab3 - 23.03\Zadanie lekcyjne\obj\Debug\net6.0\Zadanie lekcyjne.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Kacper\source\repos\Programowanie-Obiektowe-\Lab3 - 23.03\Zadanie lekcyjne\obj\Debug\net6.0\Zadanie lekcyjne.AssemblyInfoInputs.cache
+C:\Users\Kacper\source\repos\Programowanie-Obiektowe-\Lab3 - 23.03\Zadanie lekcyjne\obj\Debug\net6.0\Zadanie lekcyjne.AssemblyInfo.cs
+C:\Users\Kacper\source\repos\Programowanie-Obiektowe-\Lab3 - 23.03\Zadanie lekcyjne\obj\Debug\net6.0\Zadanie lekcyjne.csproj.CoreCompileInputs.cache
+C:\Users\Kacper\source\repos\Programowanie-Obiektowe-\Lab3 - 23.03\Zadanie lekcyjne\obj\Debug\net6.0\Zadanie lekcyjne.dll
+C:\Users\Kacper\source\repos\Programowanie-Obiektowe-\Lab3 - 23.03\Zadanie lekcyjne\obj\Debug\net6.0\ref\Zadanie lekcyjne.dll
+C:\Users\Kacper\source\repos\Programowanie-Obiektowe-\Lab3 - 23.03\Zadanie lekcyjne\obj\Debug\net6.0\Zadanie lekcyjne.pdb
+C:\Users\Kacper\source\repos\Programowanie-Obiektowe-\Lab3 - 23.03\Zadanie lekcyjne\obj\Debug\net6.0\Zadanie lekcyjne.genruntimeconfig.cache

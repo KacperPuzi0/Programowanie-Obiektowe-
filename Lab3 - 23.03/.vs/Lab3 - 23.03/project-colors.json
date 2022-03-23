@@ -1,0 +1,16 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "c60bb488-cfd1-4bfa-b074-deb33403a2f3": {
+      "ProjectGuid": "c60bb488-cfd1-4bfa-b074-deb33403a2f3",
+      "DisplayName": "Lab3 - 23.03",
+      "ColorIndex": 0
+    },
+    "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3": {
+      "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
+      "DisplayName": "Różne pliki",
+      "ColorIndex": -1
+    }
+  },
+  "NextColorIndex": 1
+}
