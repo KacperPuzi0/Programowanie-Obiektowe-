@@ -1,0 +1,15 @@
+C:\Users\Kacper\source\repos\Programowanie-Obiektowe-\Lab4-30.03\bin\Debug\net6.0\Lab4-30.03.exe
+C:\Users\Kacper\source\repos\Programowanie-Obiektowe-\Lab4-30.03\bin\Debug\net6.0\Lab4-30.03.deps.json
+C:\Users\Kacper\source\repos\Programowanie-Obiektowe-\Lab4-30.03\bin\Debug\net6.0\Lab4-30.03.runtimeconfig.json
+C:\Users\Kacper\source\repos\Programowanie-Obiektowe-\Lab4-30.03\bin\Debug\net6.0\Lab4-30.03.dll
+C:\Users\Kacper\source\repos\Programowanie-Obiektowe-\Lab4-30.03\bin\Debug\net6.0\ref\Lab4-30.03.dll
+C:\Users\Kacper\source\repos\Programowanie-Obiektowe-\Lab4-30.03\bin\Debug\net6.0\Lab4-30.03.pdb
+C:\Users\Kacper\source\repos\Programowanie-Obiektowe-\Lab4-30.03\obj\Debug\net6.0\Lab4-30.03.csproj.AssemblyReference.cache
+C:\Users\Kacper\source\repos\Programowanie-Obiektowe-\Lab4-30.03\obj\Debug\net6.0\Lab4-30.03.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Kacper\source\repos\Programowanie-Obiektowe-\Lab4-30.03\obj\Debug\net6.0\Lab4-30.03.AssemblyInfoInputs.cache
+C:\Users\Kacper\source\repos\Programowanie-Obiektowe-\Lab4-30.03\obj\Debug\net6.0\Lab4-30.03.AssemblyInfo.cs
+C:\Users\Kacper\source\repos\Programowanie-Obiektowe-\Lab4-30.03\obj\Debug\net6.0\Lab4-30.03.csproj.CoreCompileInputs.cache
+C:\Users\Kacper\source\repos\Programowanie-Obiektowe-\Lab4-30.03\obj\Debug\net6.0\Lab4-30.03.dll
+C:\Users\Kacper\source\repos\Programowanie-Obiektowe-\Lab4-30.03\obj\Debug\net6.0\ref\Lab4-30.03.dll
+C:\Users\Kacper\source\repos\Programowanie-Obiektowe-\Lab4-30.03\obj\Debug\net6.0\Lab4-30.03.pdb
+C:\Users\Kacper\source\repos\Programowanie-Obiektowe-\Lab4-30.03\obj\Debug\net6.0\Lab4-30.03.genruntimeconfig.cache
