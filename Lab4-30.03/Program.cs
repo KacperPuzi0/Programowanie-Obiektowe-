@@ -1,10 +1,40 @@
-﻿public enum Degree{
-    A = 50,
-    B = 45,
-    C = 40,
-    D = 35,
-    E = 30,
-    F = 20
+﻿using static Degrees;
+
+class Degrees
+{
+    public enum Degree
+    {
+        A = 50,
+        B = 45,
+        C = 40,
+        D = 35,
+        E = 30,
+        F = 20
+    }
+
+    public static double Convert(Degree degree)
+    {
+        return degree switch
+        {
+            Degree.A => 5.0,
+            Degree.B => 4.5,
+            Degree.C => 4.0,
+            Degree.D => 3.5,
+            Degree.E => 3.0,
+            Degree.F => 2.0
+
+        };
+    }
+
+    public static string MessageFromDegree(Degree degree)
+    {
+        return degree switch
+        {
+            Degree.A or Degree.B or Degree.C or Degree.D or Degree.E => "Pozytywna",
+            _ => "Negatywna"
+        };
+
+    }
 }
 
 class Program
@@ -29,6 +59,7 @@ class Program
         {
             Degree studentDegree = Enum.Parse<Degree>(degreeString);
             Console.WriteLine("Wpisałeś ocenę " + studentDegree);
+            Console.WriteLine(Convert(studentDegree));
         }
         catch (ArgumentException a)
         {
